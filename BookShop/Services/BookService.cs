@@ -56,8 +56,27 @@ namespace BookShop.Services
         {
             var entities = (await this.repository.SelectAllAsync()).ToList();
 
-            var results = new List<BookResultDto>();
+            // Filter data
+            if (!string.IsNullOrEmpty(name))
+                entities = entities.FindAll(p => p.Name.ToLower().Contains(name.ToLower()));
 
+            if (!string.IsNullOrEmpty(author))
+                entities = entities.FindAll(p => p.Author.Name.ToLower().Contains(author.ToLower()));
+            
+            if (!string.IsNullOrEmpty(publisher))
+                entities = entities.FindAll(p => p.Publisher.Name.ToLower().Contains(publisher.ToLower()));
+
+            if (!string.IsNullOrEmpty(genre))
+                entities = entities.FindAll(p => p.Genre.Name.ToLower().Contains(genre.ToLower()));
+
+            if (priceFrom is not null || priceFrom != 0)
+                entities = entities.FindAll(p => p.Price > priceFrom);
+
+            if (priceTo is not null || priceTo != 0)
+                entities = entities.FindAll(p => p.Price < priceTo);
+
+
+            var results = new List<BookResultDto>();
             foreach (var entity in entities)
             {
                 int discount = 0;
