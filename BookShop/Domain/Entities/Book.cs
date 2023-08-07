@@ -11,6 +11,9 @@ namespace BookShop.Domain.Entities
         public long PublisherId { get; set; }
         public Publisher Publisher { get; set; }
 
+        public long GenreId { get; set; }
+        public Genre Genre { get; set; }
+
         public DateTime Year { get; set; }
         public decimal Price { get; set; }
 
